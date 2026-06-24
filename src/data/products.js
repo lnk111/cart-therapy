@@ -1,6 +1,6 @@
 // Mock catalog for Cart Therapy — 30 products per category (150 total).
-// Each product gets a unique picsum.photos image seeded by its id. If an image
-// fails to load, ProductCard falls back to the gradient + brand-name tile.
+// Each product gets a Lorem Picsum image (?random=1..150). If an image fails to
+// load, ProductCard falls back to the gradient + brand-name tile.
 
 export const categories = [
   { id: 'luxury', name: '명품', emoji: '👜', total: 1204 },
@@ -10,8 +10,11 @@ export const categories = [
   { id: 'food', name: '식품', emoji: '🍱', total: 2096 },
 ]
 
-// Deterministic per-product image (unique by id).
-const img = (id) => `https://picsum.photos/seed/${id}/400/400`
+// Lorem Picsum direct URL, sequential 1..150 across all categories.
+const img = (n) => `https://picsum.photos/400/400?random=${n}`
+
+const CAT_SIZE = 30
+const CAT_INDEX = { luxury: 0, appliance: 1, furniture: 2, clothing: 3, food: 4 }
 
 // Compact rows: [brand, brandUpper, name, price, original(0=none), keywords]
 const RAW = {
@@ -213,9 +216,11 @@ const SPECS = {
 const TONES = ['light', 'mid', 'dark']
 
 function build(categoryId, rows) {
+  const base = CAT_INDEX[categoryId] * CAT_SIZE
   return rows.map((r, i) => {
     const [brand, brandUpper, name, price, original0] = r
     const id = `${categoryId}-${i + 1}`
+    const seq = base + i + 1 // global 1..150
     let original = original0 || 0
     let discount = 0
     if (original) {
@@ -239,7 +244,7 @@ function build(categoryId, rows) {
       rating,
       reviews,
       tone: TONES[i % 3],
-      image: img(id),
+      image: img(seq),
       specs: SPECS[categoryId](brand),
     }
   })

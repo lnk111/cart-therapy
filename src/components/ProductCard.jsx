@@ -30,6 +30,8 @@ export default function ProductCard({
   const [imgOk, setImgOk] = useState(true)
   const showImg = image && imgOk
 
+  console.log('img src:', image)
+
   return (
     <div
       onClick={onClick}
