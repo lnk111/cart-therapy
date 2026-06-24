@@ -25,8 +25,8 @@ export default function ProductCard({
   image,
   onClick,
 }) {
-  // If the image fails to load (e.g. deprecated source.unsplash.com), fall back
-  // to the gradient + brand-name tile.
+  // Show the image when present; if it fails to load, fall back to the
+  // gradient + brand-name tile.
   const [imgOk, setImgOk] = useState(true)
   const showImg = image && imgOk
 
@@ -48,14 +48,12 @@ export default function ProductCard({
           <img
             src={image}
             alt={name}
-            loading="lazy"
             onError={() => setImgOk(false)}
             style={{
-              position: 'absolute',
-              inset: 0,
               width: '100%',
               height: '100%',
               objectFit: 'cover',
+              display: 'block',
             }}
           />
         )}

@@ -14,7 +14,9 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://lnk111.github.io/)",
       "Bash(git ls-tree *)",
       "Bash(node *)",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(echo \"site: $\\(curl -s -o /dev/null -w '%{http_code}' https://lnk111.github.io/cart-therapy/\\)\")",
+      "Bash(echo \"picsum luxury-1: $\\(curl -s -o /dev/null -w '%{http_code}' -L https://picsum.photos/seed/luxury-1/400/400\\)\")"
     ]
   }
 }
