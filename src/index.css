@@ -1,0 +1,61 @@
+:root {
+  font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+  background: #e2e8f0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Phone-width app shell, centered on larger screens. */
+#root {
+  width: 430px;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 100svh;
+  background: #f8f9fa;
+  text-align: left;
+  position: relative;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: #0f172a;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* Hide scrollbars on horizontal chip rows */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
