@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProductById } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
@@ -35,6 +36,7 @@ export default function ProductDetail() {
   const navigate = useNavigate()
   const { add } = useCart()
   const product = getProductById(productId)
+  const [imgOk, setImgOk] = useState(true)
 
   if (!product) {
     return (
@@ -61,6 +63,14 @@ export default function ProductDetail() {
           aspectRatio: '1 / 1',
         }}
       >
+        {product.image && imgOk && (
+          <img
+            src={product.image}
+            alt={product.name}
+            onError={() => setImgOk(false)}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        )}
         <div style={{ position: 'absolute', inset: 0 }}>
           <StatusBar />
         </div>
@@ -86,22 +96,24 @@ export default function ProductDetail() {
             </button>
           </div>
         </div>
-        <span
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: 0,
-            right: 0,
-            transform: 'translateY(-50%)',
-            textAlign: 'center',
-            fontSize: 18,
-            letterSpacing: '0.22em',
-            fontWeight: 500,
-            color: '#64748b',
-          }}
-        >
-          {product.brandUpper}
-        </span>
+        {(!product.image || !imgOk) && (
+          <span
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: 0,
+              right: 0,
+              transform: 'translateY(-50%)',
+              textAlign: 'center',
+              fontSize: 18,
+              letterSpacing: '0.22em',
+              fontWeight: 500,
+              color: '#64748b',
+            }}
+          >
+            {product.brandUpper}
+          </span>
+        )}
         <div
           style={{
             position: 'absolute',

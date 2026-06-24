@@ -23,10 +23,11 @@ const DEFAULTS = {
 
 // Cart starts pre-filled with the two items shown in the mockups
 // (₩16,600,000 total). In-memory, so a reload restores the demo state.
+// Seed with Chanel 클래식 플랩백 (luxury-4) + Hermès 가든파티 (luxury-10) = ₩16,600,000.
 const seedCart = () =>
   [
-    { ...getProductById('lux-chanel'), qty: 1 },
-    { ...getProductById('lux-hermes'), qty: 1 },
+    { ...getProductById('luxury-4'), qty: 1 },
+    { ...getProductById('luxury-10'), qty: 1 },
   ].filter((i) => i.id)
 
 const readNum = (key, fallback) => {

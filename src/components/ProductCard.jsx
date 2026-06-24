@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Badge from './Badge.jsx'
 import RatingStars from './RatingStars.jsx'
 import { IconHeart } from './Icons.jsx'
@@ -21,8 +22,14 @@ export default function ProductCard({
   tone = 'mid',
   fav = false,
   showRating = true,
+  image,
   onClick,
 }) {
+  // If the image fails to load (e.g. deprecated source.unsplash.com), fall back
+  // to the gradient + brand-name tile.
+  const [imgOk, setImgOk] = useState(true)
+  const showImg = image && imgOk
+
   return (
     <div
       onClick={onClick}
@@ -37,29 +44,46 @@ export default function ProductCard({
           background: tints[tone] || tints.mid,
         }}
       >
+        {showImg && (
+          <img
+            src={image}
+            alt={name}
+            loading="lazy"
+            onError={() => setImgOk(false)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        )}
         {discount > 0 && (
           <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 1 }}>
             <Badge variant="destructive" label={`-${discount}%`} />
           </div>
         )}
-        <span style={{ position: 'absolute', top: 10, right: 10, color: '#94a3b8' }}>
-          <IconHeart size={20} color="#94a3b8" filled={fav} />
+        <span style={{ position: 'absolute', top: 10, right: 10, zIndex: 1 }}>
+          <IconHeart size={20} color={showImg ? '#fff' : '#94a3b8'} filled={fav} />
         </span>
-        <span
-          style={{
-            position: 'absolute',
-            bottom: 14,
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            fontSize: 12,
-            letterSpacing: '0.16em',
-            fontWeight: 500,
-            color: '#64748b',
-          }}
-        >
-          {brandUpper || (brand || '').toUpperCase()}
-        </span>
+        {!showImg && (
+          <span
+            style={{
+              position: 'absolute',
+              bottom: 14,
+              left: 0,
+              right: 0,
+              textAlign: 'center',
+              fontSize: 12,
+              letterSpacing: '0.16em',
+              fontWeight: 500,
+              color: '#64748b',
+            }}
+          >
+            {brandUpper || (brand || '').toUpperCase()}
+          </span>
+        )}
       </div>
 
       <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 10 }}>{brand}</div>

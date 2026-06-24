@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { categories, getProductsByCategory } from '../data/products.js'
 import StatusBar from '../components/StatusBar.jsx'
@@ -11,13 +12,40 @@ const FILTERS = [
   { label: '브랜드' },
 ]
 
+const PAGE = 12
+
 export default function Category() {
   const navigate = useNavigate()
   const { categoryId } = useParams()
 
-  const category =
-    categories.find((c) => c.id === categoryId) || categories[0]
+  const category = categories.find((c) => c.id === categoryId) || categories[0]
   const list = getProductsByCategory(category.id)
+
+  const [visible, setVisible] = useState(PAGE)
+  const sentinelRef = useRef(null)
+
+  // Reset paging whenever the category changes.
+  useEffect(() => {
+    setVisible(PAGE)
+  }, [category.id])
+
+  // Load 12 more each time the sentinel scrolls into view.
+  useEffect(() => {
+    const el = sentinelRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisible((v) => Math.min(v + PAGE, list.length))
+        }
+      },
+      { rootMargin: '200px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [category.id, list.length])
+
+  const shown = list.slice(0, visible)
 
   return (
     <div style={{ paddingBottom: 96 }}>
@@ -100,7 +128,7 @@ export default function Category() {
           padding: '0 20px',
         }}
       >
-        {list.map((p) => (
+        {shown.map((p) => (
           <ProductCard
             key={p.id}
             {...p}
@@ -109,6 +137,16 @@ export default function Category() {
           />
         ))}
       </div>
+
+      {/* Infinite-scroll sentinel */}
+      {visible < list.length && (
+        <div
+          ref={sentinelRef}
+          style={{ height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#cbd5e1', fontSize: 13 }}
+        >
+          불러오는 중…
+        </div>
+      )}
 
       <BottomNav />
     </div>

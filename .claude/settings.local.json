@@ -6,7 +6,15 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git -c user.name=lnk111 -c user.email=729497@gmail.com commit -m ' *)",
-      "Bash(git remote *)"
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git ls-remote *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://lnk111.github.io/cart-therapy/)",
+      "Bash(curl -sI https://lnk111.github.io/cart-therapy/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://lnk111.github.io/)",
+      "Bash(git ls-tree *)",
+      "Bash(node *)",
+      "Bash(curl *)"
     ]
   }
 }
