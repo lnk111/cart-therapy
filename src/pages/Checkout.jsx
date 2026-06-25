@@ -19,6 +19,34 @@ const card = {
   padding: 18,
 }
 
+// Order item thumbnail: show the stored product image, falling back to the
+// tinted gradient tile (same pattern as Cart's CartThumb) when missing/failed.
+function OrderThumb({ image, tone, alt }) {
+  const [imgOk, setImgOk] = useState(true)
+  const showImg = image && imgOk
+  return (
+    <span
+      style={{
+        width: 48,
+        height: 48,
+        borderRadius: 8,
+        overflow: 'hidden',
+        background: tints[tone] || tints.mid,
+        flexShrink: 0,
+      }}
+    >
+      {showImg && (
+        <img
+          src={image}
+          alt={alt}
+          onError={() => setImgOk(false)}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      )}
+    </span>
+  )
+}
+
 export default function Checkout() {
   const navigate = useNavigate()
   const { items, total, count, addSavings, clear } = useCart()
@@ -71,15 +99,7 @@ export default function Checkout() {
           <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 14 }}>
             {items.map((it) => (
               <div key={it.id} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 8,
-                    background: tints[it.tone] || tints.mid,
-                    flexShrink: 0,
-                  }}
-                />
+                <OrderThumb image={it.image} tone={it.tone} alt={it.name} />
                 <span style={{ flex: 1, fontSize: 14, color: '#0f172a' }}>{it.name}</span>
                 <span style={{ fontSize: 14, fontWeight: 700 }}>{krw(it.price * it.qty)}</span>
               </div>
