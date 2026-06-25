@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { categories, getProductsByCategory } from '../data/products.js'
 import { useCart } from '../context/CartContext.jsx'
@@ -8,11 +9,45 @@ import ProductCard from '../components/ProductCard.jsx'
 import Input from '../components/Input.jsx'
 import { IconSearch, IconBell, IconBag } from '../components/Icons.jsx'
 
-const popular = getProductsByCategory('luxury').slice(0, 2)
+// "지금 인기": 100 products, drawn evenly across categories.
+const POPULAR_QUOTA = {
+  luxury: 30,
+  appliance: 20,
+  furniture: 15,
+  clothing: 20,
+  food: 15,
+}
+const popular = Object.entries(POPULAR_QUOTA).flatMap(([cat, n]) =>
+  getProductsByCategory(cat).slice(0, n)
+)
+
+const INITIAL = 6
+const PAGE = 12
 
 export default function Landing() {
   const navigate = useNavigate()
   const { todaySaved } = useCart()
+
+  const [visible, setVisible] = useState(INITIAL)
+  const sentinelRef = useRef(null)
+
+  // Load 12 more each time the sentinel scrolls into view.
+  useEffect(() => {
+    const el = sentinelRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisible((v) => Math.min(v + PAGE, popular.length))
+        }
+      },
+      { rootMargin: '200px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  const shown = popular.slice(0, visible)
 
   return (
     <div style={{ paddingBottom: 96 }}>
@@ -143,7 +178,7 @@ export default function Landing() {
             marginTop: 16,
           }}
         >
-          {popular.map((p) => (
+          {shown.map((p) => (
             <ProductCard
               key={p.id}
               {...p}
@@ -152,6 +187,24 @@ export default function Landing() {
             />
           ))}
         </div>
+
+        {/* Infinite-scroll sentinel */}
+        {visible < popular.length && (
+          <div
+            ref={sentinelRef}
+            style={{
+              height: 40,
+              marginTop: 16,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#cbd5e1',
+              fontSize: 13,
+            }}
+          >
+            불러오는 중…
+          </div>
+        )}
       </div>
 
       <BottomNav />
