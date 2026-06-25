@@ -8,6 +8,7 @@ export const categories = [
   { id: 'furniture', name: '가구', emoji: '🛋️', total: 1875 },
   { id: 'clothing', name: '의류', emoji: '👕', total: 5421 },
   { id: 'food', name: '식품', emoji: '🍱', total: 2096 },
+  { id: 'car', name: '자동차', emoji: '🚗', total: 642 },
 ]
 
 // Lorem Picsum direct URL, sequential 1..150 across all categories.
@@ -154,7 +155,7 @@ const IMAGES = {
 // IMAGES:END
 
 const CAT_SIZE = 30
-const CAT_INDEX = { luxury: 0, appliance: 1, furniture: 2, clothing: 3, food: 4 }
+const CAT_INDEX = { luxury: 0, appliance: 1, furniture: 2, clothing: 3, food: 4, car: 5 }
 
 // Compact rows: [brand, brandUpper, name, price, original(0=none), keywords]
 const RAW = {
@@ -318,6 +319,38 @@ const RAW = {
     ['산지직송', 'PREMIUM', '자연산 송이버섯 500g', 390000, 0, 'matsutake,mushroom'],
     ['프로마쥬', 'FROMAGE', '프랑스산 치즈 플래터', 89000, 0, 'cheese,platter'],
   ],
+  car: [
+    ['현대', 'HYUNDAI', '아이오닉6', 46950000, 0, 'hyundai,ioniq6'],
+    ['현대', 'HYUNDAI', '아이오닉5', 47150000, 0, 'hyundai,ioniq5'],
+    ['현대', 'HYUNDAI', '그랜저', 37100000, 0, 'hyundai,grandeur'],
+    ['현대', 'HYUNDAI', '팰리세이드', 43830000, 0, 'hyundai,palisade'],
+    ['현대', 'HYUNDAI', '아반떼', 19750000, 0, 'hyundai,avante'],
+    ['기아', 'KIA', 'EV6', 47300000, 0, 'kia,ev6'],
+    ['기아', 'KIA', 'EV9', 73370000, 0, 'kia,ev9'],
+    ['기아', 'KIA', 'K8', 33070000, 0, 'kia,k8'],
+    ['기아', 'KIA', '스포티지', 26600000, 0, 'kia,sportage'],
+    ['기아', 'KIA', '카니발', 35000000, 0, 'kia,carnival'],
+    ['테슬라', 'TESLA', 'Model S', 135990000, 0, 'tesla,models'],
+    ['테슬라', 'TESLA', 'Model 3', 50190000, 0, 'tesla,model3'],
+    ['테슬라', 'TESLA', 'Model X', 158990000, 0, 'tesla,modelx'],
+    ['테슬라', 'TESLA', 'Model Y', 52990000, 0, 'tesla,modely'],
+    ['테슬라', 'TESLA', 'Cybertruck', 99800000, 0, 'tesla,cybertruck'],
+    ['벤츠', 'MERCEDES-BENZ', 'E클래스', 73000000, 0, 'benz,eclass'],
+    ['벤츠', 'MERCEDES-BENZ', 'S클래스', 149000000, 0, 'benz,sclass'],
+    ['벤츠', 'MERCEDES-BENZ', 'GLE', 105000000, 0, 'benz,gle'],
+    ['벤츠', 'MERCEDES-BENZ', 'C클래스', 64000000, 0, 'benz,cclass'],
+    ['벤츠', 'MERCEDES-BENZ', 'EQS', 157000000, 0, 'benz,eqs'],
+    ['BMW', 'BMW', '5시리즈', 70600000, 0, 'bmw,5series'],
+    ['BMW', 'BMW', '7시리즈', 155000000, 0, 'bmw,7series'],
+    ['BMW', 'BMW', 'X5', 107000000, 0, 'bmw,x5'],
+    ['BMW', 'BMW', 'iX', 127000000, 0, 'bmw,ix'],
+    ['BMW', 'BMW', '3시리즈', 53800000, 0, 'bmw,3series'],
+    ['미니쿠퍼', 'MINI', 'Cooper S', 42000000, 0, 'mini,coopers'],
+    ['미니쿠퍼', 'MINI', 'Countryman', 48000000, 0, 'mini,countryman'],
+    ['미니쿠퍼', 'MINI', 'Clubman', 46000000, 0, 'mini,clubman'],
+    ['미니쿠퍼', 'MINI', 'Convertible', 47000000, 0, 'mini,convertible'],
+    ['미니쿠퍼', 'MINI', 'Paceman', 45000000, 0, 'mini,paceman'],
+  ],
 }
 
 const SPECS = {
@@ -350,6 +383,12 @@ const SPECS = {
     ['보관', '냉장 / 냉동'],
     ['원산지', '산지직송'],
     ['배송', '신선 새벽배송'],
+  ],
+  car: (brand) => [
+    ['브랜드', brand],
+    ['연식', '2025년형'],
+    ['보증', '제조사 5년 / 10만km'],
+    ['구성', '신차 출고 / 등록 별도'],
   ],
 }
 
