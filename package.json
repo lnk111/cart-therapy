@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
+    "fetch-images": "node scripts/fetch-product-images.js",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"

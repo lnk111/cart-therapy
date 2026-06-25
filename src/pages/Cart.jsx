@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext.jsx'
 import { krw } from '../lib/format.js'
@@ -16,6 +17,34 @@ const card = {
   background: '#fff',
   border: '1px solid #eef2f6',
   borderRadius: 14,
+}
+
+// Cart thumbnail: show the stored product image, falling back to the tinted
+// gradient tile (same pattern as ProductCard) when it's missing or fails.
+function CartThumb({ image, tone, alt }) {
+  const [imgOk, setImgOk] = useState(true)
+  const showImg = image && imgOk
+  return (
+    <span
+      style={{
+        width: 64,
+        height: 64,
+        borderRadius: 10,
+        overflow: 'hidden',
+        background: tints[tone] || tints.mid,
+        flexShrink: 0,
+      }}
+    >
+      {showImg && (
+        <img
+          src={image}
+          alt={alt}
+          onError={() => setImgOk(false)}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      )}
+    </span>
+  )
 }
 
 export default function Cart() {
@@ -54,15 +83,7 @@ export default function Cart() {
           {/* Items */}
           {items.map((it) => (
             <div key={it.id} style={{ ...card, padding: 16, display: 'flex', gap: 14 }}>
-              <span
-                style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: 10,
-                  background: tints[it.tone] || tints.mid,
-                  flexShrink: 0,
-                }}
-              />
+              <CartThumb image={it.image} tone={it.tone} alt={it.name} />
               <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
                   <div style={{ minWidth: 0 }}>
